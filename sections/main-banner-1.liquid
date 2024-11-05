@@ -1,0 +1,180 @@
+{% if section.settings.image %}
+    <div>
+      <div class="img-banner" id="{{ section.id }}" style="">
+        {{
+          section.settings.image
+          | image_url: width: section.settings.image.width
+          | image_tag:
+            widths: '100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000',
+            alt: 'This is a main banner image',
+            sizes: '100vw',
+            class: 'img',
+            loading: 'eager'
+        }}
+        <div class="container">
+          {% for block in section.blocks %}
+            <div style="font-size: {{ block.settings.fs | plus: 0 | divided_by: 16 }}rem; font-weight: {{ block.settings.fw }}">
+              {{ block.settings.label }}
+            </div>
+           
+          {% endfor %}
+          <div>
+            <button>Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  
+  <style>
+   #{{ section.id }} img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .img-banner {
+      position: relative;
+      width: 100%;
+      height: {{section.settings.image_height | plus: 0}}vh;
+      }
+  
+    .container {
+      position: absolute;
+      top: {{section.settings.p-top}}%;
+      left: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding-left: {{section.settings.p-l-item | divided_by: 16}}rem;
+      }
+  </style>
+  
+  {% schema %}
+  {
+    "name": "Banner",
+    "tag": "section",
+    "class": "main-banner",
+    "settings": [
+      {
+        "label": "Banner Image",
+        "type": "image_picker",
+        "id": "image"
+      },
+      {
+        "type": "select",
+        "label": "Image Height",
+        "id": "image_height",
+        "default": "100",
+        "options": [
+          {
+            "label": "Full",
+            "value": "100"
+          },
+          {
+            "label": "50%",
+            "value": "50"
+          },
+          {
+            "label": "25%",
+            "value": "25"
+          }
+        ]
+      },
+      {
+        "label": "Padding Container",
+        "type": "range",
+        "id": "p-l-item",
+        "min": 0,
+        "max": 100,
+        "default": 16,
+        "unit": "px"
+      },
+  
+      {
+        "label": "Top Position",
+        "type": "range",
+        "id": "p-top",
+        "min": 0,
+        "max": 100,
+        "step": 10,
+        "default": 10,
+        "unit": "%"
+      }
+    ],
+  
+    "blocks": [
+      {
+        "type": "banner_text",
+        "name": "Text Option",
+        "settings": [
+          {
+            "label": "Label",
+            "type": "text",
+            "id": "label"
+          },
+          {
+            "type": "range",
+            "label": "Font Size",
+            "id": "fs",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 16
+          },
+          {
+            "type": "select",
+            "label": "Font Weight",
+            "id": "fw",
+            "default": "400",
+            "options": [
+              {
+                "label": "100",
+                "value": "100"
+              },
+              {
+                "label": "200",
+              "value": "200"
+            },
+            {
+              "label": "300",
+              "value": "300"
+            },
+             {
+              "label": "400",
+              "value": "400"
+            },
+             {
+              "label": "500",
+              "value": "500"
+            },
+             {
+              "label": "600",
+              "value": "600"
+            },
+             {
+              "label": "700",
+              "value": "700"
+            },
+             {
+              "label": "800",
+              "value": "800"
+            },
+
+          ]
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Banner"
+    }
+  ]
+}
+{% endschema %}
